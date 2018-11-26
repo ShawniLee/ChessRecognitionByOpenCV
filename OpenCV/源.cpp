@@ -147,10 +147,12 @@ void CalcCustomVariance(Point temp[WeiGrid + 5])//position=false X   position=tr
 
 }
 
+//TODO:将temp改成vector，保证x的偏移量在Image.cols/WeiGrid之内，求其中任意两个点的y的差放入vector中，若两个点y的差距小于Image.cols/40则删除一个
 void CalcVariance() {
 	float XVariance, YVariance;
 	for (set<Point, MyLess>::iterator i = po.begin(); i != po.end(); i++)
 	{
+		
 		int count = 0;
 		Point temp[WeiGrid+5];
 		for (set<Point, MyLess>::iterator j = i; count < WeiGrid+5; count++, j++)
