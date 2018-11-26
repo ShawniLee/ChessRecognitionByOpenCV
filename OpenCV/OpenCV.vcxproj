@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClCompile Include="源.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="源.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{933FB007-6D58-4E46-8A06-1CA2FF212606}</ProjectGuid>
