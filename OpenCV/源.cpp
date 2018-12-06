@@ -69,16 +69,16 @@ void deleteSameChessPos(int samePosDistance,Mat *srcImage)
 	set<Point, MyLess>::iterator i, j;
 	for (i = po.begin();; )
 	{
-		upperLeftPoint.x = i->x - samePosDistance;
+		upperLeftPoint.x = i->x - samePosDistance;//左上角位置
 		upperLeftPoint.y = i->y - samePosDistance;
-		lowerRightPoint.x = i->x + samePosDistance;
+		lowerRightPoint.x = i->x + samePosDistance;//右下角点位置
 		lowerRightPoint.y = i->y + samePosDistance;
 		//去除无效点
 		//if (!cuttingRangeResult[upperLeftPoint.x/ xStep][upperLeftPoint.y/yStep])
 		//	i=temp.erase(i);
 		//else
 		//去重
-		Rect detectRange(upperLeftPoint, lowerRightPoint);
+		Rect detectRange(upperLeftPoint, lowerRightPoint);//检测区域
 		count = 0;
 		for (j = i, ++j; count<sumRange;)
 		{
@@ -109,73 +109,73 @@ void deleteSameChessPos(int samePosDistance,Mat *srcImage)
 // @Param: 待处理的点数组
 //************************************
 
-void CalcCustomVariance(Point temp[WeiGrid + 5])//position=false X   position=true Y   
-{
-	float Average, Variance = 0,min=std::numeric_limits<float>::max(),index=0;
-	int sum[WeiGrid + 5] = { 0 }, Var[WeiGrid + 5] = { 0 };
-	Point Ytemp[WeiGrid + 5];
-	for (int i = 0; i < WeiGrid + 5; i++)
-	{
-		Ytemp[i] = temp[WeiGrid + 5];
-	}
-	for (int i = 0; i < WeiGrid; i++)//如果已经到达了列表末尾，没有足够的点可供挑选了，直接返回
-	{
-		if(Ytemp[i].x==0 || Ytemp[i].y==0)
-			return;
-	}
-	//对Y求方差
-	{	
-		sort(Ytemp[0], Ytemp[WeiGrid + 4], cmp);
-		for (int i = 1; i < WeiGrid + 5; i++)
-		{
-			sum[i] = sum[i - 1] + Ytemp[i].y;
-			Var[i] = Var[i - 1] + Ytemp[i].y * Ytemp[i].y;
-		}
-		for (int i = WeiGrid; i <= WeiGrid+5; i++) {
-			double tmp = (Var[i] - Var[i - WeiGrid]) - 1.0 * (sum[i] - sum[i - WeiGrid]) * (sum[i] - sum[i - WeiGrid]) / WeiGrid;
-			if (tmp < min) {
-				min = tmp;
-				index = i;
-			}
-			for (int i = 0; i < WeiGrid+5; i++)
-			{
+//void CalcCustomVariance(Point temp[WeiGrid + 5])//position=false X   position=true Y   
+//{
+//	float Average, Variance = 0,min=std::numeric_limits<float>::max(),index=0;
+//	int sum[WeiGrid + 5] = { 0 }, Var[WeiGrid + 5] = { 0 };
+//	Point Ytemp[WeiGrid + 5];
+//	for (int i = 0; i < WeiGrid + 5; i++)
+//	{
+//		Ytemp[i] = temp[WeiGrid + 5];
+//	}
+//	for (int i = 0; i < WeiGrid; i++)//如果已经到达了列表末尾，没有足够的点可供挑选了，直接返回
+//	{
+//		if(Ytemp[i].x==0 || Ytemp[i].y==0)
+//			return;
+//	}
+//	//对Y求方差
+//	{	
+//		sort(Ytemp[0], Ytemp[WeiGrid + 4], cmp);
+//		for (int i = 1; i < WeiGrid + 5; i++)
+//		{
+//			sum[i] = sum[i - 1] + Ytemp[i].y;
+//			Var[i] = Var[i - 1] + Ytemp[i].y * Ytemp[i].y;
+//		}
+//		for (int i = WeiGrid; i <= WeiGrid+5; i++) {
+//			double tmp = (Var[i] - Var[i - WeiGrid]) - 1.0 * (sum[i] - sum[i - WeiGrid]) * (sum[i] - sum[i - WeiGrid]) / WeiGrid;
+//			if (tmp < min) {
+//				min = tmp;
+//				index = i;
+//			}
+//			for (int i = 0; i < WeiGrid+5; i++)
+//			{
+//
+//			}
+//		}
+//
+//	}
+//
+//}
 
-			}
-		}
-
-	}
-
-}
-
-void CalcVariance() {
-	float XVariance, YVariance;
-	for (set<Point, MyLess>::iterator i = po.begin(); i != po.end(); i++)
-	{
-		int count = 0;
-		Point temp[WeiGrid+5];
-		for (set<Point, MyLess>::iterator j = i; count < WeiGrid+5; count++, j++)
-		{
-			if (j == po.end())
-			{
-				break;
-			}
-			temp[count] = *j;
-		}
-
-		//对X求方差
-		{
-			for (int i = 0; i < WeiGrid; i++)
-			{
-				sum += temp[i].x;//检测X的波动程度，X尽量相同
-			}
-			Average = sum / (float)WeiGrid;
-			for (int i = 0; i < WeiGrid; i++)
-			{
-				Variance += pow((temp[i].x - Average), 2);
-			}
-		}
-	}
-}
+//void CalcVariance() {
+//	float XVariance, YVariance;
+//	for (set<Point, MyLess>::iterator i = po.begin(); i != po.end(); i++)
+//	{
+//		int count = 0;
+//		Point temp[WeiGrid+5];
+//		for (set<Point, MyLess>::iterator j = i; count < WeiGrid+5; count++, j++)
+//		{
+//			if (j == po.end())
+//			{
+//				break;
+//			}
+//			temp[count] = *j;
+//		}
+//
+//		//对X求方差
+//		{
+//			for (int i = 0; i < WeiGrid; i++)
+//			{
+//				sum += temp[i].x;//检测X的波动程度，X尽量相同
+//			}
+//			Average = sum / (float)WeiGrid;
+//			for (int i = 0; i < WeiGrid; i++)
+//			{
+//				Variance += pow((temp[i].x - Average), 2);
+//			}
+//		}
+//	}
+//}
 
 void DrawHarris(Mat* srcImage) {
 	for (set<Point, MyLess>::iterator i = po.begin(); i != po.end(); i++)
@@ -218,7 +218,7 @@ int main()
 	vector<vector<Point>>contours;
 	vector<Vec4i>hierarchy;
 
-	dstImage1 = dstImage1 > 100;
+	dstImage1 = dstImage1 > 100;//增大亮度
 	findContours(dstImage1, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
 
 	//绘制轮廓图
@@ -232,7 +232,7 @@ int main()
 	morphologyEx(dstImage2, dstImage2, MORPH_ERODE, element);
 	DetectedHarris(&dstImage2, &HarrisImage);
 	deleteSameChessPos(15, &HarrisImage);
-	CalcVariance();
+	//CalcVariance();
 	//set<Point, MyLess>::iterator temp = po.begin();
 	//for (int i=0;i<po.size(); i++)
 	//{
