@@ -21,7 +21,7 @@ struct MyLess
 	//}
 	bool operator () (const Point_<_Tp>& pt1, const Point_<_Tp> & pt2) const
 	{
-		if (pt1.x!=pt2.x)
+		if (pt1.x-pt2.x<1e-6)
 		{
 			return pt1.x < pt2.x;
 		}
